@@ -23,8 +23,8 @@
 
         [Required(ErrorMessage = "Thời gian không được để trống")]
         [Display(Name = "Thời gian")]
-        [DataType(DataType.DateTime, ErrorMessage = "Sai định dạng")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateTime { get; set; }
 
         [Display(Name = "Ngành")]
