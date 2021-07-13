@@ -1,2 +1,1 @@
-# Thực hành lập trình web
-# Trương Đình Sang
+# Thực hành lập trình web - DS - D1
