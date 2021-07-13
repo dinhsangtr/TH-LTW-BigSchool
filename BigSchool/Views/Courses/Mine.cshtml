@@ -7,6 +7,11 @@
 
 
 <div class="row" style="margin-top: 10px">
+    <div class="row custom1">
+        <p class="custom2">My upcoming course</p>
+    </div>
+
+
     <ul class="course">
         @foreach (var course in Model)
         {
@@ -23,6 +28,7 @@
                     <span class="lecture">
                         @course.LecturerId
                     </span>
+                    <br />
                     <span class="category">
                         @course.Category.Name
                     </span>
@@ -30,6 +36,7 @@
                 <div class="action">
                     <a href="/Courses/Edit/@course.Id">Edit</a>
                     <a href="/Courses/Delete/@course.Id">Delete</a>
+
                 </div>
             </li>
         }

@@ -27,10 +27,5 @@ namespace BigSchool.Controllers
             context.SaveChanges();
             return Ok();
         }
-
-
-
-
-
     }
 }

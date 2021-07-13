@@ -5,7 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <div class="row" style="margin-top: 10px">
+    <div class="row custom1">
+        <p class="custom2">Course I am going</p>
+    </div>
+
     <ul class="course">
         @foreach (var course in Model)
         {
@@ -22,6 +27,7 @@
                     <span class="lecture">
                         @course.LecturerId
                     </span>
+                    <br />
                     <span class="category">
                         @course.Category.Name
                     </span>

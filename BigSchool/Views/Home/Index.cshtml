@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BigSchool.Models.Course>
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home";
 }
 
 <div class="row" style="margin-top: 10px">
@@ -21,6 +21,7 @@
                     <span class="lecture">
                         @course.LecturerId
                     </span>
+                    <br />
                     <span class="category">
                         @course.Category.Name
                     </span>
@@ -48,8 +49,4 @@
             });
         </script>
     }
-
-
-
-
 </div>

@@ -34,7 +34,6 @@ namespace BigSchool.Controllers
         public ActionResult Create(Course objCourse)
         {
             BigSchoolContext context = new BigSchoolContext();
-
             //khong xet valid lectureId vi bang user dang nhap
             ModelState.Remove("LecturerId");
             if (!ModelState.IsValid)
@@ -58,9 +57,11 @@ namespace BigSchool.Controllers
         }
 
 
+
         //Course I am going
         public ActionResult Attending()
         {
+
             BigSchoolContext context = new BigSchoolContext();
             ApplicationUser currentUser = System.Web.HttpContext.Current.GetOwinContext()
                 .GetUserManager<ApplicationUserManager>()
@@ -73,10 +74,8 @@ namespace BigSchool.Controllers
                 objCourse.LecturerId = System.Web.HttpContext.Current.GetOwinContext()
                     .GetUserManager<ApplicationUserManager>()
                     .FindById(objCourse.LecturerId).Name;
-
                 courses.Add(objCourse);
             }
-
             return View(courses);
         }
 
@@ -84,11 +83,10 @@ namespace BigSchool.Controllers
         //My upcoming course
         public ActionResult Mine()
         {
-
+            Session.Remove("Delete");
             ApplicationUser currentUser = System.Web.HttpContext.Current.GetOwinContext()
                 .GetUserManager<ApplicationUserManager>()
                 .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-
             BigSchoolContext context = new BigSchoolContext();
             var courses = context.Courses.Where(x => x.LecturerId == currentUser.Id && x.DateTime > DateTime.Now).ToList();
             foreach (Course i in courses)
@@ -125,21 +123,54 @@ namespace BigSchool.Controllers
 
             context.Courses.AddOrUpdate(course);
             context.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Mine");
         }
-
-
 
 
 
         //My upcoming course - DELETE
+        [HttpGet]
         public ActionResult Delete(int id) // id course
         {
+            BigSchoolContext context = new BigSchoolContext();
+            Course course = context.Courses.SingleOrDefault(x => x.Id == id);
 
-            return View();
+            var category = context.Categories.SingleOrDefault(c => c.Id == course.CategoryId);
+            ViewBag.CategoryName = category.Name;
+            if (course == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(course);
         }
 
 
-
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteCourse(int id)
+        {
+            Session.Remove("Delete");
+            BigSchoolContext context = new BigSchoolContext();
+            Course course = context.Courses.SingleOrDefault(x => x.Id == id);
+            if (course == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            //kiem tra da co trong bang attendance chua
+            List<Attendence> listAttendence = context.Attendences.Where(a => a.CourseId == course.Id).ToList();
+            if (listAttendence.Count > 0)
+            {
+                Session["Delete"] = "Không thể xóa - (>.<)"; // thong bao
+                return RedirectToAction("Delete", new { id = id });
+            }
+            else
+            {
+                context.Courses.Remove(course);
+                context.SaveChanges();
+                return RedirectToAction("Mine");
+            }
+        }
     }
 }

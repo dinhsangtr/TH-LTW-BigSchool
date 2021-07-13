@@ -75,3 +75,13 @@ textarea {
         .course > li:hover .action {
             display: block;
         }
+
+.custom1 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.custom2 {
+    color: #d41d50;
+    font-weight: bold;
+}
