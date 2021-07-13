@@ -9,6 +9,12 @@
     [Table("Course")]
     public partial class Course
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Course()
+        {
+            Attendences = new HashSet<Attendence>();
+        }
+
         public int Id { get; set; }
 
         [Required]
@@ -30,9 +36,12 @@
         [Display(Name = "Ngành")]
         public int CategoryId { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Attendence> Attendences { get; set; }
+
         public virtual Category Category { get; set; }
 
-        //add list category
+        //add list
         public List<Category> ListCategory = new List<Category>();
 
     }
