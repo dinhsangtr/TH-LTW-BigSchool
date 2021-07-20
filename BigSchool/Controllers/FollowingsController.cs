@@ -30,8 +30,6 @@ namespace BigSchool.Controllers
                 context.Followings.Remove(context.Followings.SingleOrDefault(p => p.FollowerId == userID && p.FolloweeId == follow.FolloweeId));
                 context.SaveChanges();
                 return Ok("cancel");
-
-
                 //return BadRequest("The already following exists!");
             }
             //set object follow

@@ -22,7 +22,6 @@ namespace BigSchool.Controllers
             ////if (userID == attendenceDto.LecturerId)
             ////    return BadRequest("Fail!");
             ///
-
             BigSchoolContext context = new BigSchoolContext();
             if (context.Attendences.Any(p => p.Attendee == userID && p.CourseId == attendenceDto.Id))
             {
@@ -30,7 +29,6 @@ namespace BigSchool.Controllers
                 context.Attendences.Remove(context.Attendences.SingleOrDefault(p => p.Attendee == userID && p.CourseId == attendenceDto.Id));
                 context.SaveChanges();
                 return Ok("cancel");
-
                 //return BadRequest("The attenddance already exists!");
             }
 

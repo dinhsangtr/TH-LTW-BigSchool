@@ -49,5 +49,4 @@
                 alert("Something fail!");
             });
     });
-
 });
