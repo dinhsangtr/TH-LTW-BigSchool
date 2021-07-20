@@ -2,51 +2,63 @@
 
 @{
     ViewBag.Title = "Home";
-}
 
+}
 <div class="row" style="margin-top: 10px">
     <ul class="course">
         @foreach (var course in Model)
         {
             <li>
-                <div class="date">
-                    <div class="month">
-                        @course.DateTime.ToString("MM")
+                <div class="row">
+                    <div class="date">
+                        <div class="month">
+                            @course.DateTime.ToString("MM")
+                        </div>
+                        <div class="day">
+                            @course.DateTime.ToString("dd")
+                        </div>
                     </div>
-                    <div class="day">
-                        @course.DateTime.ToString("dd")
+                    <div class="detail">
+                        <span class="lecture">
+                            @course.LecturerName
+                            @if (course.isLogin)
+                            {
+                                if (course.isShowFollow)
+                                {
+                                    <button data-user-id="@course.LecturerId" class="btn btn-default btn-sm js-tongle-follow">Follow</button>
+                                }
+                                else
+                                {
+                                    <button data-user-id="@course.LecturerId" class="btn btn-default btn-sm js-tongle-follow">Following</button>
+                                }
+                            }
+
+
+                        </span>
+                        <br />
+                        <span class="category">
+                            @course.Category.Name
+                            @if (course.isLogin)
+                            {
+                                if (course.isShowGoing)
+                                {
+                                    <button data-course-id="@course.Id" class="btn btn-default btn-sm js-tongle-attendence">Going?</button>
+                                }
+                                else
+                                {
+                                    <button data-course-id="@course.Id" class="btn btn-default btn-sm js-tongle-attendence">Going</button>
+                                }
+                            }
+                        </span>
+
                     </div>
                 </div>
-                <div class="detail">
-                    <span class="lecture">
-                        @course.LecturerId
-                    </span>
-                    <br />
-                    <span class="category">
-                        @course.Category.Name
-                    </span>
-                    <button data-course-id="@course.Id" class="btn btn-default btn-sm js-tongle-attendence">Going?</button>
-                </div>
+
             </li>
         }
     </ul>
 
     @section scripts{
-        <script>
-            $(document).ready(function () {
-                $(".js-tongle-attendence").click(function (e) {
-                    var button = $(e.target);
-                    $.post("/api/attendances", { Id: button.attr("data-course-id") })
-                        .done(function () {
-                            alert("Register course successflly!")
-                            button.removeClass("btn-default")
-                                .addClass("btn-info")
-                                .text("Going");
-                        }).fail(function () {
-                            alert("Something fail!");
-                        });
-                });
-            });
-        </script>
+        <script src="~/Content/api.js"></script>
     }
 </div>

@@ -71,7 +71,7 @@ namespace BigSchool.Controllers
             foreach (Attendence temp in listAttendences)
             {
                 Course objCourse = temp.Course;
-                objCourse.LecturerId = System.Web.HttpContext.Current.GetOwinContext()
+                objCourse.LecturerName = System.Web.HttpContext.Current.GetOwinContext()
                     .GetUserManager<ApplicationUserManager>()
                     .FindById(objCourse.LecturerId).Name;
                 courses.Add(objCourse);
@@ -91,7 +91,7 @@ namespace BigSchool.Controllers
             var courses = context.Courses.Where(x => x.LecturerId == currentUser.Id && x.DateTime > DateTime.Now).ToList();
             foreach (Course i in courses)
             {
-                i.LecturerId = currentUser.Name;
+                i.LecturerName = currentUser.Name;
             }
             return View(courses);
         }
@@ -172,5 +172,39 @@ namespace BigSchool.Controllers
                 return RedirectToAction("Mine");
             }
         }
+
+
+        ///
+        public ActionResult LectureIamGoing()
+        {
+            ApplicationUser currentUser = System.Web.HttpContext.Current.GetOwinContext()
+                .GetUserManager<ApplicationUserManager>()
+                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+            BigSchoolContext context = new BigSchoolContext();
+
+            //danh sách giảng viên được theo dõi bởi người dùng (đăng nhập) hiện tại
+            var listFollwee = context.Followings.Where(p => p.FollowerId == currentUser.Id).ToList();
+
+            //danh sách các khóa học mà người dùng đã đăng ký
+            var listAttendances = context.Attendences.Where(p => p.Attendee == currentUser.Id).ToList();
+            var courses = new List<Course>();
+            foreach (var course in listAttendances)
+            {
+                foreach (var item in listFollwee)
+                {
+                    if (item.FolloweeId == course.Course.LecturerId)
+                    {
+                        Course objCourse = course.Course;
+                        objCourse.LecturerName = System.Web.HttpContext.Current.GetOwinContext()
+                            .GetUserManager<ApplicationUserManager>()
+                            .FindById(objCourse.LecturerId).Name;
+                        courses.Add(objCourse);
+                    }
+                }
+            }
+            return View(courses);
+        }
+
     }
 }

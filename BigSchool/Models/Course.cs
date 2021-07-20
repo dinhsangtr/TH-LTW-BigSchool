@@ -9,6 +9,14 @@
     [Table("Course")]
     public partial class Course
     {
+
+        //bool
+        public bool isLogin = false;
+        public bool isShowGoing = false;
+        public bool isShowFollow = false;
+
+        public string LecturerName;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Course()
         {
@@ -21,7 +29,6 @@
         [StringLength(128)]
         public string LecturerId { get; set; }
 
-
         [Required(ErrorMessage = "Tên địa điểm không được để trống")]
         [Display(Name = "Địa điểm")]
         [StringLength(255, ErrorMessage = "Tên địa điểm không được quá 255 ký tự.")]
@@ -33,7 +40,7 @@
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateTime { get; set; }
 
-        [Display(Name = "Ngành")]
+        [Display(Name = "Ngành học")]
         public int CategoryId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -41,8 +48,8 @@
 
         public virtual Category Category { get; set; }
 
+
         //add list
         public List<Category> ListCategory = new List<Category>();
-
     }
 }

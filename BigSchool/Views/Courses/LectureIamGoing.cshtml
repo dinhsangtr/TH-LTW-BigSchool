@@ -1,16 +1,14 @@
 ﻿@model IEnumerable<BigSchool.Models.Course>
 
 @{
-    ViewBag.Title = "Mine";
+    ViewBag.Title = "LectureIamGoing";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="row" style="margin-top: 10px">
     <div class="row custom1">
-        <p class="custom2">My upcoming course</p>
+        <p class="custom2">Lecture I'm Going</p>
     </div>
-
 
     <ul class="course">
         @foreach (var course in Model)
@@ -24,21 +22,13 @@
                         @course.DateTime.ToString("dd")
                     </div>
                 </div>
-                <div class="detail">
-                    <span class="lecture">
-                        @course.LecturerName
-                    </span>
+                <div class="details">
+                    <span class="lecture">@course.LecturerName</span>
                     <br />
-                    <span class="category">
-                        @course.Category.Name
-                    </span>
-                </div>
-                <div class="action">
-                    <a href="/Courses/Edit/@course.Id">Edit</a>
-                    <a href="/Courses/Delete/@course.Id">Delete</a>
-
+                    <span class="category">@course.Category.Name</span>
                 </div>
             </li>
         }
     </ul>
 </div>
+
